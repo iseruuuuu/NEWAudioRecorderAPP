@@ -11,32 +11,17 @@ import Combine
 import AVFoundation
 
 class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
-    
     var audioPlayer: AVAudioPlayer!
-    
     @Published var isPlaying = false
-    
     @State var switch_flg: Bool = false
     
-    let objectWillChange = PassthroughSubject<AudioPlayer, Never>()
-   
-    /*
-    var isPlaying = false {
-        didSet {
-            objectWillChange.send(self)
-        }
- */
-    
-    
-  
     func startPlayBack (audio: URL){
         let playbackSession = AVAudioSession.sharedInstance()
         do {
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
         } catch {
-            NSLog("audio session set category faikure")
-            print("Playing over the device's speaker failled")
+            print("再生成功")
         }
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
@@ -48,9 +33,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
             print("Playback failed.")
         }
     }
-    
-   
-    
+     
     func stop() {
         audioPlayer.stop()
     }
@@ -61,50 +44,10 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         audioPlayer.pause()
     }
     
-    
-    func replay() {
-        if audioPlayer.isPlaying == true {
-            audioPlayer.play()
-        }else {
-            audioPlayer.pause()
-        }
-    }
-    
-    
-    
-      func pauseplay() {
-          if audioPlayer.isPlaying {
-              audioPlayer.stop()
-            print("false")
-            switch_flg = false
-          }else {
-              audioPlayer.play()
-            print("true")
-            switch_flg = true
-           
-          }
-      }
-    
-    func pauseplayy() {
-        if audioPlayer.isPlaying == false {
-           // audioPlayer.play()
-            audioPlayer.stop()
-            
-        }else {
-         //   audioPlayer.stop()
-            audioPlayer.play()
-         
-        }
-    }
-      
- 
-    
-
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         if flag {
             isPlaying = false
         }
     }
-
 }
  

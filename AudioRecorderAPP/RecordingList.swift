@@ -1,28 +1,19 @@
 
 import SwiftUI
-import Speech
-import MediaPlayer
 import AVKit
-import AVFoundation
 import Combine
-import MobileCoreServices
-
 
 struct RecordingsList: View {
     @ObservedObject var audioRecorder: AudioRecorder
     @ObservedObject var audioPlayer = AudioPlayer()
     @State private var value: Double = 0
-    
     var body: some View {
         List {
             ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
                 RecordingRow(audioURL: recording.fileURL, audioRecorder: audioRecorder)
-                
             }
             .onDelete(perform: delete)
-            
         }
-        
     }
     
     func delete(at offsets: IndexSet) {
@@ -33,8 +24,6 @@ struct RecordingsList: View {
         audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
     }
 }
-
-//struct RecordingRow: View {
 
 struct RecordingRow: View {
     
@@ -49,44 +38,9 @@ struct RecordingRow: View {
     @State var starttime : Float = 0
     @State var finishtime : Float = 0
     @State var nomove = 0.0
-    
     @State var isplaying = false
-    
     @State var switch_flg: Bool = false
-    
-    func play(){
-        if audioPlayer.isPlaying{
-            audioPlayer.audioPlayer.play()
-        }
-        else{
-            audioPlayer.audioPlayer.pause()
-        }
-    }
-    
-    func play2() {
-        if audioPlayer.isPlaying {
-            audioPlayer.audioPlayer.play()
-            
-        }else {
-            self.audioPlayer.startPlayBack(audio: self.audioURL)
-            
-            
-        }
-    }
-    
-    
-    
-    func pauseplay() {
-        if audioPlayer.isPlaying {
-            audioPlayer.audioPlayer.stop()
-        }else {
-            audioPlayer.audioPlayer.play()
-            
-        }
-    }
-    
-    
-    
+
     func startAnimation() {
         var power : Float = 0
         for i in 0..<audioPlayer.audioPlayer.numberOfChannels{
@@ -98,10 +52,7 @@ struct RecordingRow: View {
             self.animatedValue = animated + 55
         }
     }
-    
-    
-    
-    
+
     func getStartTime(value: TimeInterval)->String{
         return "\(Int(starttime / 60)):\(Int(starttime.truncatingRemainder(dividingBy: 60)) < 10 ? "0" : "")\(Int(starttime.truncatingRemainder(dividingBy: 60)))"
     }
@@ -110,11 +61,7 @@ struct RecordingRow: View {
         return "\(Int(finishtime / 60)):\(Int(finishtime.truncatingRemainder(dividingBy: 60)) < 10 ? "0" : "")\(Int(finishtime.truncatingRemainder(dividingBy: 60)))"
     }
     
-    
-    
-    
-    
-    
+
     var body: some View {
         VStack(alignment:.center){
             Text("\(audioURL.lastPathComponent)")
@@ -122,8 +69,9 @@ struct RecordingRow: View {
                 .padding(10)
             Slider(value: Binding(get: {time}, set: { (newValue) in
                 time = newValue
-                audioPlayer.audioPlayer.currentTime = Double(time) * audioPlayer.audioPlayer.duration
+                self.audioPlayer.startPlayBack(audio: self.audioURL)
                 audioPlayer.audioPlayer.play()
+                audioPlayer.audioPlayer.currentTime = Double(time) * audioPlayer.audioPlayer.duration
             }))
             .onReceive(timer) { (_) in
                 if audioPlayer.isPlaying {
@@ -141,7 +89,7 @@ struct RecordingRow: View {
                     audioPlayer.isPlaying = false
                 }
             }
-            //  }
+            
             
             
             HStack {
@@ -156,11 +104,9 @@ struct RecordingRow: View {
             
             
             HStack(spacing: 22){
-                //戻る機能
                 Button(action: {
                 }) {
                     Image(systemName: "backward.fill")
-                        
                         .onTapGesture {
                             if audioPlayer.isPlaying {
                                 audioPlayer.audioPlayer.currentTime -= 10000
@@ -214,8 +160,6 @@ struct RecordingRow: View {
                         }
                         .font(.title)
                     }
-                    
-                    
                 }else {
                     Button(action: {
                     }) {
@@ -228,121 +172,21 @@ struct RecordingRow: View {
                             .foregroundColor(.blue)
                     }
                     .font(.title)
-                    
                 }
                 
-                
-                /*
-                 
-                 if ( switch_flg ) {
-                 // if audioPlayer.isPlaying {
-                 Button(action: {
-                 }) {
-                 Image(systemName: "play.fill")
-                 .onTapGesture{
-                 print("false")
-                 switch_flg = false
-                 //self.audioPlayer.startPlayBack(audio: self.audioURL)
-                 }
-                 .imageScale(.large)
-                 .foregroundColor(.blue)
-                 }
-                 .font(.title)
-                 }else {
-                 
-                 Button(action: {
-                 }) {
-                 Image(systemName: "pause.fill")
-                 .onTapGesture{
-                 print("true")
-                 switch_flg = true
-                 // self.audioPlayer.pauseplay()
-                 }
-                 .imageScale(.large)
-                 .foregroundColor(.blue)
-                 }
-                 .font(.title)
-                 }
-                 
-                 */
-                
-                
-                
-                /*
-                 
-                 //再生の処理
-                 if audioPlayer.isPlaying == false {
-                 Button(action: {
-                 }) {
-                 Image(systemName: "play.fill")
-                 // Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                 .onTapGesture{
-                 self.audioPlayer.startPlayBack(audio: self.audioURL)
-                 
-                 }
-                 .imageScale(.large)
-                 .foregroundColor(.blue)
-                 }
-                 .font(.title)
-                 } else if audioPlayer.isPlaying == true {
-                 Button(action: {
-                 }) {
-                 Image(systemName: "play.fill")
-                 // Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                 .onTapGesture{
-                 self.audioPlayer.audioPlayer.pause()
-                 }
-                 .imageScale(.large)
-                 .foregroundColor(.blue)
-                 }
-                 .font(.title)
-                 }else {
-                 Button(action: {
-                 }) {
-                 Image(systemName: "pause.fill")
-                 // Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                 .onTapGesture{
-                 self.audioPlayer.audioPlayer.play()
-                 }
-                 .imageScale(.large)
-                 .foregroundColor(.blue)
-                 }
-                 .font(.title)
-                 }
-                 
-                 */
-                
-                
-                /*
-                 
-                 Button(action: play2) {
-                 Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                 .font(.title)
-                 .imageScale(.medium)
-                 .foregroundColor(.blue)
-                 }
-                 
-                 
-                 */
-                
-                
-                //15秒進める。
                 Button(action: {
                 }) {
                     Image(systemName: "goforward.10").onTapGesture {
                         if audioPlayer.isPlaying {
                             audioPlayer.audioPlayer.currentTime += 10
                         } else {
-                            
                         }
                     }
                     .font(.title)
                     .imageScale(.medium)
                     .foregroundColor(.blue)
                 }
-                
-                
-                
+   
                 Button(action: {
                 }) {
                     Image(systemName: "forward.fill").onTapGesture {
@@ -352,17 +196,14 @@ struct RecordingRow: View {
                         else {
                         }
                     }
-                    .imageScale(.medium)// システムアイコンを指定
+                    .imageScale(.medium)
                     .foregroundColor(.blue)
                 }
                 .font(.title)
             }
-            
         }
     }
 }
-
-
 struct RecordingsList_Previews: PreviewProvider {
     static var previews: some View {
         RecordingsList(audioRecorder: AudioRecorder())
