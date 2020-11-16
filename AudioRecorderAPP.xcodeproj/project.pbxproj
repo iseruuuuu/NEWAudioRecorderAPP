@@ -11,6 +11,12 @@
 		CE7699B7255FDCBA004C204A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699B6255FDCBA004C204A /* ContentView.swift */; };
 		CE7699B9255FDCBE004C204A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7699B8255FDCBE004C204A /* Assets.xcassets */; };
 		CE7699BC255FDCBE004C204A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7699BB255FDCBE004C204A /* Preview Assets.xcassets */; };
+		CE7699C5255FDD01004C204A /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699C4255FDD01004C204A /* AudioPlayer.swift */; };
+		CE7699C8255FDD17004C204A /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699C7255FDD17004C204A /* AudioRecorder.swift */; };
+		CE7699CB255FDD25004C204A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699CA255FDD25004C204A /* Extension.swift */; };
+		CE7699CE255FDD2C004C204A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699CD255FDD2C004C204A /* Helper.swift */; };
+		CE7699D1255FDD37004C204A /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699D0255FDD37004C204A /* RecordingDataModel.swift */; };
+		CE7699D4255FDD42004C204A /* RecordingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7699D3255FDD42004C204A /* RecordingList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +26,12 @@
 		CE7699B8255FDCBE004C204A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7699BB255FDCBE004C204A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CE7699BD255FDCBE004C204A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE7699C4255FDD01004C204A /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		CE7699C7255FDD17004C204A /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		CE7699CA255FDD25004C204A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		CE7699CD255FDD2C004C204A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		CE7699D0255FDD37004C204A /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
+		CE7699D3255FDD42004C204A /* RecordingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,12 @@
 			children = (
 				CE7699B4255FDCBA004C204A /* AudioRecorderAPPApp.swift */,
 				CE7699B6255FDCBA004C204A /* ContentView.swift */,
+				CE7699C4255FDD01004C204A /* AudioPlayer.swift */,
+				CE7699C7255FDD17004C204A /* AudioRecorder.swift */,
+				CE7699CA255FDD25004C204A /* Extension.swift */,
+				CE7699CD255FDD2C004C204A /* Helper.swift */,
+				CE7699D0255FDD37004C204A /* RecordingDataModel.swift */,
+				CE7699D3255FDD42004C204A /* RecordingList.swift */,
 				CE7699B8255FDCBE004C204A /* Assets.xcassets */,
 				CE7699BD255FDCBE004C204A /* Info.plist */,
 				CE7699BA255FDCBE004C204A /* Preview Content */,
@@ -138,8 +156,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7699CB255FDD25004C204A /* Extension.swift in Sources */,
 				CE7699B7255FDCBA004C204A /* ContentView.swift in Sources */,
+				CE7699D1255FDD37004C204A /* RecordingDataModel.swift in Sources */,
 				CE7699B5255FDCBA004C204A /* AudioRecorderAPPApp.swift in Sources */,
+				CE7699C8255FDD17004C204A /* AudioRecorder.swift in Sources */,
+				CE7699C5255FDD01004C204A /* AudioPlayer.swift in Sources */,
+				CE7699CE255FDD2C004C204A /* Helper.swift in Sources */,
+				CE7699D4255FDD42004C204A /* RecordingList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +293,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AudioRecorderAPP/Preview Content\"";
+				DEVELOPMENT_TEAM = D453TST7T9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AudioRecorderAPP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -290,6 +315,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AudioRecorderAPP/Preview Content\"";
+				DEVELOPMENT_TEAM = D453TST7T9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AudioRecorderAPP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
