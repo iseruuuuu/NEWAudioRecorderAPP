@@ -6,7 +6,7 @@ import Combine
 struct RecordingsList: View {
     @ObservedObject var audioRecorder: AudioRecorder
     @ObservedObject var audioPlayer = AudioPlayer()
-    @State private var value: Double = 0
+    
     var body: some View {
         List {
             ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
@@ -39,8 +39,8 @@ struct RecordingRow: View {
     @State var finishtime : Float = 0
     @State var nomove = 0.0
     @State var isplaying = false
-    @State var switch_flg: Bool = false
-
+    @State var switch_audio: Bool = false
+    
     func startAnimation() {
         var power : Float = 0
         for i in 0..<audioPlayer.audioPlayer.numberOfChannels{
@@ -52,7 +52,7 @@ struct RecordingRow: View {
             self.animatedValue = animated + 55
         }
     }
-
+    
     func getStartTime(value: TimeInterval)->String{
         return "\(Int(starttime / 60)):\(Int(starttime.truncatingRemainder(dividingBy: 60)) < 10 ? "0" : "")\(Int(starttime.truncatingRemainder(dividingBy: 60)))"
     }
@@ -61,7 +61,7 @@ struct RecordingRow: View {
         return "\(Int(finishtime / 60)):\(Int(finishtime.truncatingRemainder(dividingBy: 60)) < 10 ? "0" : "")\(Int(finishtime.truncatingRemainder(dividingBy: 60)))"
     }
     
-
+    
     var body: some View {
         VStack(alignment:.center){
             Text("\(audioURL.lastPathComponent)")
@@ -71,6 +71,8 @@ struct RecordingRow: View {
                 time = newValue
                 self.audioPlayer.startPlayBack(audio: self.audioURL)
                 audioPlayer.audioPlayer.play()
+                switch_audio = true
+                
                 audioPlayer.audioPlayer.currentTime = Double(time) * audioPlayer.audioPlayer.duration
             }))
             .onReceive(timer) { (_) in
@@ -109,7 +111,7 @@ struct RecordingRow: View {
                     Image(systemName: "backward.fill")
                         .onTapGesture {
                             if audioPlayer.isPlaying {
-                                audioPlayer.audioPlayer.currentTime -= 10000
+                                audioPlayer.audioPlayer.currentTime -= 100000
                             }
                             else {
                             }
@@ -125,34 +127,34 @@ struct RecordingRow: View {
                         .onTapGesture {
                             if audioPlayer.isPlaying  {
                                 audioPlayer.audioPlayer.currentTime -= 10
-                            }
-                            else {
-                            }
+                            } else {}
                         }
                         .imageScale(.medium)
                         .foregroundColor(.blue)
                         .font(.title)
                 }
-
+                
+                
+                
                 if audioPlayer.isPlaying {
-                    if (switch_flg) {
+                    if (switch_audio) {
                         Button(action: {
                         }) {
                             Image(systemName: "pause.fill")
                                 .onTapGesture{
-                                    switch_flg = false
+                                    switch_audio = false
                                     self.audioPlayer.pause()
                                 }
                                 .imageScale(.large)
                                 .foregroundColor(.blue)
                         }
                         .font(.title)
-                    }else {
+                    }else{
                         Button(action: {
                         }) {
                             Image(systemName: "play.fill")
                                 .onTapGesture{
-                                    switch_flg = true
+                                    switch_audio = true
                                     self.audioPlayer.play()
                                 }
                                 .imageScale(.large)
@@ -165,7 +167,7 @@ struct RecordingRow: View {
                     }) {
                         Image(systemName: "play.fill")
                             .onTapGesture{
-                                switch_flg = true
+                                switch_audio = true
                                 self.audioPlayer.startPlayBack(audio: self.audioURL)
                             }
                             .imageScale(.large)
@@ -186,12 +188,12 @@ struct RecordingRow: View {
                     .imageScale(.medium)
                     .foregroundColor(.blue)
                 }
-   
+                
                 Button(action: {
                 }) {
                     Image(systemName: "forward.fill").onTapGesture {
                         if audioPlayer.isPlaying {
-                            audioPlayer.audioPlayer.currentTime += 10000
+                            audioPlayer.audioPlayer.currentTime += 100000
                         }
                         else {
                         }

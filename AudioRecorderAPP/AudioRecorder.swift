@@ -13,19 +13,21 @@ class AudioRecorder: NSObject,ObservableObject {
     override init() {
         super.init()
         fetchRecordings()
-   
     }
 
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
     
     var audioRecorder: AVAudioRecorder!
+    
     var recordings = [Recording]()
+    
     
     var recording = false {
            didSet {
                objectWillChange.send(self)
            }
        }
+    
     
     func startRecording() {
         let recordingSession = AVAudioSession.sharedInstance()
@@ -44,9 +46,8 @@ class AudioRecorder: NSObject,ObservableObject {
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 12000,
-           // AVSampleRateKey: 32000,
-            AVNumberOfChannelsKey: 1,
+            AVSampleRateKey: 12010,
+            AVNumberOfChannelsKey: 2,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
         
@@ -80,18 +81,9 @@ class AudioRecorder: NSObject,ObservableObject {
         recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
         objectWillChange.send(self)
     }
-    
-    func getAudioFileUrl() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let docsDirect = paths[0]
-        let audioUrl = docsDirect.appendingPathComponent("record.m4a")
-        return audioUrl
-        
-    }
-    
+
     
     func deleteRecording(urlsToDelete: [URL]) {
-        
         for url in urlsToDelete {
             print(url)
             do {
