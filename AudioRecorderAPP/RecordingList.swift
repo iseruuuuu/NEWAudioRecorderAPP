@@ -3,6 +3,8 @@ import SwiftUI
 import AVKit
 import Combine
 
+//スライダーを動かすとたまに再生できない。
+
 struct RecordingsList: View {
     @ObservedObject var audioRecorder: AudioRecorder
     @ObservedObject var audioPlayer = AudioPlayer()
@@ -61,7 +63,6 @@ struct RecordingRow: View {
         return "\(Int(finishtime / 60)):\(Int(finishtime.truncatingRemainder(dividingBy: 60)) < 10 ? "0" : "")\(Int(finishtime.truncatingRemainder(dividingBy: 60)))"
     }
     
-    
     var body: some View {
         VStack(alignment:.center){
             Text("\(audioURL.lastPathComponent)")
@@ -69,10 +70,15 @@ struct RecordingRow: View {
                 .padding(10)
             Slider(value: Binding(get: {time}, set: { (newValue) in
                 time = newValue
-                self.audioPlayer.startPlayBack(audio: self.audioURL)
-                audioPlayer.audioPlayer.play()
-                switch_audio = true
-                
+                    if (switch_audio) {
+                        audioPlayer.audioPlayer.pause()
+                        audioPlayer.audioPlayer.play()
+                        switch_audio = true
+ 
+                } else {
+                    self.audioPlayer.startPlayBack(audio: self.audioURL)
+                    switch_audio = true
+                }
                 audioPlayer.audioPlayer.currentTime = Double(time) * audioPlayer.audioPlayer.duration
             }))
             .onReceive(timer) { (_) in
@@ -80,15 +86,13 @@ struct RecordingRow: View {
                     audioPlayer.audioPlayer.updateMeters()
                     audioPlayer.isPlaying = true
                     time = Float(audioPlayer.audioPlayer.currentTime / audioPlayer.audioPlayer.duration)
-                    
                     starttime = Float(audioPlayer.audioPlayer.currentTime)
-                    
                     finishtime = Float(audioPlayer.audioPlayer.duration - audioPlayer.audioPlayer.currentTime)
-                    
                     startAnimation()
                     
                 } else {
                     audioPlayer.isPlaying = false
+                    
                 }
             }
             
@@ -113,8 +117,7 @@ struct RecordingRow: View {
                             if audioPlayer.isPlaying {
                                 audioPlayer.audioPlayer.currentTime -= 100000
                             }
-                            else {
-                            }
+                            else {}
                         }
                         .imageScale(.medium)
                         .foregroundColor(.blue)

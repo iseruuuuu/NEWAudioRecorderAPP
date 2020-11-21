@@ -3,7 +3,6 @@
 //  recorderAPPnew
 //
 //  Created by user on 2020/10/12.
-//
 
 import SwiftUI
 import Combine
@@ -32,7 +31,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
             print("Playback failed.")
         }
     }
-     
+    
     func stop() {
         audioPlayer.stop()
     }
@@ -49,4 +48,4 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 }
- 
+
