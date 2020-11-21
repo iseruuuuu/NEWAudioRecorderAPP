@@ -70,13 +70,20 @@ struct RecordingRow: View {
                 .padding(10)
             Slider(value: Binding(get: {time}, set: { (newValue) in
                 time = newValue
+                if audioPlayer.isPlaying {
                     if (switch_audio) {
                         audioPlayer.audioPlayer.pause()
                         audioPlayer.audioPlayer.play()
                         switch_audio = true
- 
+                        
+                    } else {
+                        self.audioPlayer.startPlayBack(audio: self.audioURL)
+                        self.audioPlayer.play()
+                        switch_audio = true
+                    }
                 } else {
                     self.audioPlayer.startPlayBack(audio: self.audioURL)
+                    self.audioPlayer.play()
                     switch_audio = true
                 }
                 audioPlayer.audioPlayer.currentTime = Double(time) * audioPlayer.audioPlayer.duration
