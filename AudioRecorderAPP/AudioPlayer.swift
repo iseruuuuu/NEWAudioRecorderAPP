@@ -11,13 +11,12 @@ import AVFoundation
 class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     var audioPlayer: AVAudioPlayer!
     @Published var isPlaying = false
-    @State var switch_flg: Bool = false
+    @State var switchAudio: Bool = false
     
     func startPlayBack (audio: URL){
         let playbackSession = AVAudioSession.sharedInstance()
         do {
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
         } catch {
             print("再生成功")
         }

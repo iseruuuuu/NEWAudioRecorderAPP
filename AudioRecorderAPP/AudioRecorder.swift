@@ -16,19 +16,15 @@ class AudioRecorder: NSObject,ObservableObject {
         super.init()
         fetchRecordings()
     }
-
+    
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
-    
     var audioRecorder: AVAudioRecorder!
-    
     var recordings = [Recording]()
-    
-    
     var recording = false {
-           didSet {
-               objectWillChange.send(self)
-           }
-       }
+        didSet {
+            objectWillChange.send(self)
+        }
+    }
     
     
     func startRecording() {
@@ -44,7 +40,7 @@ class AudioRecorder: NSObject,ObservableObject {
         let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let audioFilename = documentPath.appendingPathComponent("\(Date().toString(dateFormat: "「YYYY-MM-dd HH:mm:ss」")).m4a")
         
-
+        
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -83,7 +79,7 @@ class AudioRecorder: NSObject,ObservableObject {
         recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
         objectWillChange.send(self)
     }
-
+    
     
     func deleteRecording(urlsToDelete: [URL]) {
         for url in urlsToDelete {
